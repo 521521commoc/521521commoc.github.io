@@ -16,11 +16,39 @@ header{background:#165DFF;color:white;padding:18px 24px}
 .output-tip{background:#ecfdf3;border:1px solid #36d399;padding:12px;border-radius:8px;margin:12px 0}
 footer{margin-top:40px;padding:20px;background:#f3f4f6;font-size:13px;color:#666}
 textarea,input{width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:6px}
-/*点击才展开的面板样式*/
-.panel{display:none;border:1px solid #165DFF;background:#f8fbff;border-radius:10px;padding:22px;margin:18px 0}
-.panel h4{color:#165DFF;margin-bottom:10px;font-size:17px}
+
+/* 模态弹窗：居中+黑色遮罩，不会向下展开 */
+.modal-overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.55);
+  z-index:999;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.modal-box{
+  background:#fff;
+  width:min(640px,95vw);
+  max-height:85vh;
+  overflow-y:auto;
+  border-radius:12px;
+  padding:24px;
+  position:relative;
+}
+.modal-close-x{
+  position:absolute;
+  top:14px;
+  right:16px;
+  font-size:22px;
+  cursor:pointer;
+  color:#888;
+}
+.modal-close-x:hover{color:#222}
+.modal-box h4{color:#165DFF;margin-bottom:10px;font-size:17px}
 .desc-text{color:#333;line-height:1.7;margin:7px 0}
-.demo-block{background:#fff;padding:10px;border-radius:6px;margin:10px 0;border:1px dashed #cbd5e1}
+.demo-block{background:#f7f9fc;padding:14px;border-radius:6px;margin:14px 0;border:1px dashed #cbd5e1}
 </style>
 </head>
 <body>
@@ -33,134 +61,55 @@ textarea,input{width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border
 <div class="warn">📢重要提示：本网页为财务管理课程设计交互原型；全部计税、AI输出、申报均为模拟演示；真实涉税业务请以电子税务局、主管税务机关为准。</div>
 
 <div class="output-tip">
-📎AI推理输出三类成果（作业要求）：①自动生成各税种申报数据与全套申报表 ②输出涉税风险报告+合规整改建议 ③推送企业政策匹配、优惠测算报告
+📎对应作业5项核心能力：①多税种一键申报&自动生成申报表 ②AI涉税风险报告+整改建议 ③优惠自动识别&测算推送 ④企业画像‑政策适配分析 ⑤政策与合规站内提醒
 </div>
 
-<h2>🏠功能导航（交付要求全部7大模块，按钮均可点击展开）</h2>
+<h2>🏠功能导航（点击按钮弹出弹窗）</h2>
 <div class="grid">
 
 <div class="card">
 <h3>🏢企业中心</h3>
-<p>维护企业画像：行业、纳税人身份、注册地、经营规模，用于政策智能匹配</p >
-<button class="btn" onclick="showModule('mod_qy')">进入企业中心</button>
+<p>构建企业画像（行业、纳税人身份、规模、注册地），为政策智能匹配提供基础数据</p >
+<button class="btn" onclick="openModal('mod_qy')">进入企业中心</button>
 </div>
 
 <div class="card">
 <h3>📤数据上传</h3>
-<p>财务Excel、发票、银行流水、PDF凭证导入；多源数据采集‑清洗‑标准化流转</p >
-<button class="btn" onclick="showModule('mod_upload')">上传财务数据</button>
+<p>财税多源数据采集、清洗、标准化与业务转化，给计税和AI分析提供原始数据源</p >
+<button class="btn" onclick="openModal('mod_upload')">上传财务数据</button>
 </div>
 
 <div class="card">
 <h3>🧾计税&申报</h3>
-<p>自动计税、生成申报表、多税种批量提交、状态查询、申报表下载归档</p >
-<button class="btn" onclick="showModule('mod_taxdeclare')">打开计税申报</button>
+<p>✅作业1+2｜多税种一键申报、自动计税、生成申报表、支持人工复核调整</p >
+<button class="btn" onclick="openModal('mod_taxdeclare')">打开计税申报</button>
 </div>
 
 <div class="card">
 <h3>📚政策中心</h3>
-<p>优惠政策库、自动识别推送、企业政策适配分析、税收知识图谱查阅</p >
-<button class="btn" onclick="showModule('mod_policy')">打开政策中心</button>
+<p>✅作业3+4｜优惠自动识别推送、企业画像政策适配分析，区分已享受/可享受/暂不满足</p >
+<button class="btn" onclick="openModal('mod_policy')">打开政策中心</button>
 </div>
 
 <div class="card">
 <h3>⚠风险看板</h3>
-<p>AI涉税风险扫描、风险报告输出、给出合规整改建议、风险台账管理</p >
-<button class="btn" onclick="showModule('mod_risk')">查看风险看板</button>
+<p>税收知识图谱支撑AI涉税扫描，输出风险台账、风险报告和整改指引</p >
+<button class="btn" onclick="openModal('mod_risk')">查看风险看板</button>
 </div>
 
 <div class="card">
 <h3>💬智能问答</h3>
-<p>财税NLP智能问答，政策、申报表、办税流程咨询；AI推理演示</p >
+<p>基于税收知识图谱的财税智能问答演示，提供政策、填表、办税咨询</p >
 <textarea id="askText" placeholder="例如：小微企业2026企业所得税优惠？"></textarea>
-<button class="btn" onclick="showModule('mod_chat')">提问智能体</button>
+<button class="btn" onclick="openModal('mod_chat')">提问智能体</button>
 </div>
 
 <div class="card">
 <h3>🔔消息提醒</h3>
-<p>申报期限倒计时、政策变动通知、涉税风险预警、站内合规提醒</p >
-<button class="btn" onclick="showModule('mod_notice')">查看消息提醒</button>
+<p>✅作业5｜政策变动、申报期限、涉税风险网页端站内合规提醒中心</p >
+<button class="btn" onclick="openModal('mod_notice')">查看消息提醒</button>
 </div>
 
-</div>
-
-<!-- ========== 下面全部是「点击按钮展开」的内容面板 ========== -->
-
-<div id="mod_qy" class="panel">
-<h4>🏢模块｜企业中心（企业画像管理）</h4>
-<p class="desc-text">维护企业基础标签，作为全部智能匹配的基础：行业、增值税纳税人类型、企业规模、注册地区、开业时间。系统据此生成立体企业画像，支撑政策适配、优惠测算、风险识别。</p >
-<div class="demo-block">
-📋演示录入项：
-<br>行业：批发零售业｜纳税人：小规模纳税人｜规模：小微企业｜注册地：陕西省西安市
-</div>
-<p class="desc-text">完整画像逻辑、标签体系参见《系统开发说明书》与业务数据流图。</p >
-<button class="btn btn-close" onclick="hideAll()">关闭面板</button>
-</div>
-
-<div id="mod_upload" class="panel">
-<h4>📤模块｜数据上传 & 多源数据处理</h4>
-<p class="desc-text">支持上传：财务报表Excel、发票PDF、银行流水、记账凭证；系统执行：采集→清洗→校验→标准化→业务转化，形成可供计税与AI分析的数据集（原型UI演示）。</p >
-<div class="demo-block">
-📁演示区：「选择文件」按钮｜“正在解析与清洗数据……✅校验通过，已完成标准化”
-</div>
-<p class="desc-text">数据流转完整流程参见附件《业务数据流转流程图》。</p >
-<button class="btn btn-close" onclick="hideAll()">关闭面板</button>
-</div>
-
-<div id="mod_taxdeclare" class="panel">
-<h4>🧾模块｜自动计税 & 多税种一键申报</h4>
-<p class="desc-text">依据已经标准化的财务数据，按照税法规则自动计算应纳税额、预填全套申报表；支持人工复核调整；可批量模拟提交、查询申报状态、申报表预览&下载归档；AI输出第①类成果：全套申报数据与申报表。</p >
-<div class="demo-block">
-🧪简易计税演示：
-<input type="number" id="saleIn" placeholder="输入不含税销售额(演示)">
-<button class="btn" onclick="calcDemo()">执行模拟计税</button>
-<div id="calcRes" style="margin-top:8px"></div>
-</div>
-<p class="desc-text">⚠原型不调用电子税务局真实接口；完整计税规则见开发说明书。</p >
-<button class="btn btn-close" onclick="hideAll()">关闭面板</button>
-</div>
-
-<div id="mod_policy" class="panel">
-<h4>📚模块｜政策中心 & 优惠智能推送</h4>
-<p class="desc-text">税收政策动态库 + 知识图谱支撑；读取企业画像自动识别可用税费优惠、测算减免金额、提示留存备查资料；按「✅已享受｜🟢可享受｜⚠暂不满足条件」分类；AI输出第③类成果：政策匹配&优惠测算报告。</p >
-<div class="demo-block">
-📑演示匹配结果：匹配到：小规模减免、小微企业所得税优惠、六税两费减免；预估年度减免演示金额：约1240.00元；《备查资料提示清单》已生成。
-</div>
-<p class="desc-text">税收知识图谱详细设计，参见独立《税收知识图谱设计文档》。</p >
-<button class="btn btn-close" onclick="hideAll()">关闭面板</button>
-</div>
-
-<div id="mod_risk" class="panel">
-<h4>⚠模块｜风险看板 & 涉税风险报告</h4>
-<p class="desc-text">AI对企业财务‑涉税数据进行合规扫描；识别收入、扣除、发票、申报比对类风险点；输出风险台账、完整《涉税风险报告》并且给出逐条合规整改建议；AI输出第②类成果：风险报告+整改指引。</p >
-<div class="demo-block">
-🔍演示扫描结果：共扫描12个风险指标｜低风险提示2项｜无重大预警；示例整改提示：“请核对成本费用凭证附件是否完整留存备查”。
-</div>
-<p class="desc-text">风险指标体系、规则库设计见系统开发说明书。</p >
-<button class="btn btn-close" onclick="hideAll()">关闭面板</button>
-</div>
-
-<div id="mod_chat" class="panel">
-<h4>💬模块｜智能问答（NLP演示）</h4>
-<p class="desc-text">财税自然语言问答，基于政策知识库与税收知识图谱做推理；用于政策查询、申报表填报咨询、办税指引；仅原型演示，大模型完整部署方案见设计文档。</p >
-<div class="demo-block">
-用户提问：<span id="qShow"></span>
-<br><br>🤖智能体回复演示：“小微企业，年应纳税所得额≤300万适用优惠税率，实际税负5%；请对照企业条件判断是否符合，以正式政策文件为准。”
-</div>
-<button class="btn btn-close" onclick="hideAll()">关闭面板</button>
-</div>
-
-<div id="mod_notice" class="panel">
-<h4>🔔模块｜消息提醒 & 合规通知中心</h4>
-<p class="desc-text">站内消息：申报期限倒计时提醒、新政策上线推送、涉税风险预警、待办事项；政策库更新后自动触发提醒；支持标记已读。</p >
-<div class="demo-block">
-⏰提醒列表演示：
-<br>•【倒计时】距离本季度纳税申报截止还有 6 天，请核对数据
-<br>•【新政策】关于部分优惠执行期限延续的政策更新
-<br>•【风险提示】有1条低风险待复核（来自风险看板）
-</div>
-<p class="desc-text">消息推送规则参见开发说明书模块说明。</p >
-<button class="btn btn-close" onclick="hideAll()">关闭面板</button>
 </div>
 
 <div class="card">
@@ -177,29 +126,144 @@ textarea,input{width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border
 智慧财税管理智能体｜课程作业原型｜免责声明：仅教学演示，不提供真实报税服务｜2026
 </footer>
 
+
+<!-- ==========弹窗内容 ——全部已经对齐你的作业PDF五条要求========== -->
+<div id="mod_qy" class="modal-overlay">
+  <div class="modal-box">
+    <span class="modal-close-x" onclick="closeAllModal()">×</span>
+    <h4>🏢企业中心｜构建企业画像（对应作业核心功能第4条）</h4>
+    <p class="desc-text">维护企业特征标签：行业、增值税纳税人身份、经营规模、注册地区、开业时间，用来构建立体企业画像；画像将提供给政策适配、优惠测算、风险识别模块作为输入依据。</p >
+    <div class="demo-block">
+📋演示企业画像：<br>
+行业：批发零售业｜纳税人身份：小规模纳税人｜规模：小微企业｜注册地：陕西省西安市
+    </div>
+    <p class="desc-text">画像标签体系详细说明参见《系统开发说明书》。</p >
+    <button class="btn btn-close" onclick="closeAllModal()">关闭</button>
+  </div>
+</div>
+
+<div id="mod_upload" class="modal-overlay">
+  <div class="modal-box">
+    <span class="modal-close-x" onclick="closeAllModal()">×</span>
+    <h4>📤数据上传｜多源财税数据采集‑清洗‑标准化‑业务转化</h4>
+    <p class="desc-text">支持导入财务Excel报表、发票PDF、银行流水、记账凭证；系统执行完整处理链路：<b>采集→清洗→校验→标准化→业务转化</b>，输出结构化数据集，供自动计税、AI风险扫描调用。</p >
+    <div class="demo-block">
+📁演示上传流程：<br>「选择文件」→正在解析清洗……✅校验通过，已完成标准化，数据送入智能体引擎。
+    </div>
+    <p class="desc-text">完整数据流转逻辑参见《业务数据流转流程图》。</p >
+    <button class="btn btn-close" onclick="closeAllModal()">关闭</button>
+  </div>
+</div>
+
+<div id="mod_taxdeclare" class="modal-overlay">
+  <div class="modal-box">
+    <span class="modal-close-x" onclick="closeAllModal()">×</span>
+    <h4>🧾计税&申报｜对应作业核心功能第1、2条</h4>
+    <p class="desc-text"><b>①多税种一键申报：</b>支持增值税、企业所得税等主流税种，可批量勾选、模拟提交、查询申报状态、申报表预览下载归档；<br>
+    <b>②自动计税与申报表生成：</b>依据标准化财务数据、按照税法规则自动计算应纳税额，自动生成规范申报表，支持人工复核调整修改。</p >
+    <div class="demo-block">
+🧪交互演示区：
+<input type="number" id="saleIn" placeholder="输入不含税销售额(演示)">
+<button class="btn" onclick="calcDemo()">执行模拟计税</button>
+<div id="calcRes" style="margin-top:8px"></div>
+<br>☑增值税小规模申报表&nbsp;&nbsp;☑企业所得税预缴申报表<br>「批量模拟提交」「刷新申报状态」「下载PDF归档」
+    </div>
+    <p class="desc-text">⚠原型仅课程演示，不调用电子税务局真实接口。</p >
+    <button class="btn btn-close" onclick="closeAllModal()">关闭</button>
+  </div>
+</div>
+
+<div id="mod_policy" class="modal-overlay">
+  <div class="modal-box">
+    <span class="modal-close-x" onclick="closeAllModal()">×</span>
+    <h4>📚政策中心｜对应作业核心功能第3、4条</h4>
+    <p class="desc-text"><b>③税收优惠自动识别与推送：</b>读取企业经营指标，自动识别可享受税费优惠、测算减免金额、提示留存备查资料；<br>
+    <b>④基于企业特征的政策适配分析：</b>调取企业画像做匹配，把政策分为：✅已享受、🟢可享受、⚠暂不满足条件三类。</p >
+    <div class="demo-block">
+📑演示匹配结果（演示画像：批发零售‑小规模‑小微企业‑西安）：<br>
+✅已享受：六税两费减半征收<br>
+🟢可享受：小微企业所得税优惠、小规模纳税人减免<br>
+⚠暂不满足：高新技术企业税收优惠<br>
+💡模拟年度减免测算：1268.50元｜📎备查资料清单已生成
+    </div>
+    <p class="desc-text">政策匹配由税收知识图谱提供支撑，图谱设计见《税收知识图谱设计文档》。</p >
+    <button class="btn btn-close" onclick="closeAllModal()">关闭</button>
+  </div>
+</div>
+
+<div id="mod_risk" class="modal-overlay">
+  <div class="modal-box">
+    <span class="modal-close-x" onclick="closeAllModal()">×</span>
+    <h4>⚠风险看板｜AI涉税风险扫描（知识图谱支撑）</h4>
+    <p class="desc-text">依托税收知识图谱规则库对财务‑涉税数据扫描；识别收入确认、成本扣除、发票、申报比对类风险；输出风险台账、完整《涉税风险报告》并给出逐条合规整改建议。</p >
+    <div class="demo-block">
+🔍演示扫描结果：共扫描12项风险指标｜低风险提示2项｜无重大预警<br>
+💡示例整改提示：请核对成本费用凭证附件是否完整留存备查。
+    </div>
+    <p class="desc-text">风险指标与规则库参见《系统开发说明书》。</p >
+    <button class="btn btn-close" onclick="closeAllModal()">关闭</button>
+  </div>
+</div>
+
+<div id="mod_chat" class="modal-overlay">
+  <div class="modal-box">
+    <span class="modal-close-x" onclick="closeAllModal()">×</span>
+    <h4>💬智能问答｜税收知识图谱NLP交互演示</h4>
+    <p class="desc-text">基于税收政策知识库+知识图谱推理，提供政策查询、申报表填报指引、办税流程咨询；属于智能体自然语言交互入口，仅原型演示。</p >
+    <div class="demo-block">
+用户提问：<span id="qShow"></span>
+<br><br>🤖智能体回复演示：“小微企业，年应纳税所得额≤300万适用优惠税负5%；请对照企业实际条件判断，一切以正式政策文件为准。”
+    </div>
+    <button class="btn btn-close" onclick="closeAllModal()">关闭</button>
+  </div>
+</div>
+
+<div id="mod_notice" class="modal-overlay">
+  <div class="modal-box">
+    <span class="modal-close-x" onclick="closeAllModal()">×</span>
+    <h4>🔔消息提醒｜对应作业核心功能第5条</h4>
+    <p class="desc-text">税收政策库动态更新；在网页端提供站内提醒：政策变更通知、申报期限倒计时、涉税风险事项预警；消息支持标记为已读。</p >
+    <div class="demo-block">
+⏰提醒列表演示：
+<br>•【倒计时】距离本季度纳税申报截止还有 6 天，请核对数据
+<br>•【政策更新】部分税费优惠延续政策已经更新入库
+<br>•【风险提示】来自风险看板：存在1条低风险事项待复核
+<br>「标记全部已读」
+    </div>
+    <p class="desc-text">消息推送规则参见《系统开发说明书》。</p >
+    <button class="btn btn-close" onclick="closeAllModal()">关闭</button>
+  </div>
+</div>
+
+
 <script>
-//打开一个面板，先把其它全部收起来
-function showModule(id){
-  hideAll();
-  document.getElementById(id).style.display="block";
-  //智能问答顺便把输入框文字显示出来
+//打开弹窗
+function openModal(id){
+  closeAllModal();
+  document.getElementById(id).style.display="flex";
   if(id==="mod_chat"){
     document.getElementById("qShow").innerText=document.getElementById("askText").value||"（示例：小微企业所得税优惠？）";
   }
 }
-//全部面板隐藏关闭
-function hideAll(){
-  document.querySelectorAll(".panel").forEach(p=>p.style.display="none");
+//全部关闭
+function closeAllModal(){
+  document.querySelectorAll(".modal-overlay").forEach(m=>m.style.display="none");
 }
-//计税‑计税申报面板里
+//点击灰色遮罩也可以关闭
+document.querySelectorAll(".modal-overlay").forEach(ov=>{
+  ov.addEventListener("click",function(e){
+    if(e.target===this) closeAllModal();
+  })
+})
+
+//模拟计税函数
 function calcDemo(){
   let s=Number(document.getElementById('saleIn').value||0);
   let vat=s*0.01;
   let city=vat*0.07;
   let ed=vat*0.03+vat*0.02;
-  document.getElementById('calcRes').innerHTML=`✅模拟结果：增值税${vat.toFixed(2)}｜城建${city.toFixed(2)}｜教育及地方教育附加${ed.toFixed(2)}；预填申报表演示已生成`;
+  document.getElementById('calcRes').innerHTML=`✅模拟结果：增值税${vat.toFixed(2)}｜城建税${city.toFixed(2)}｜教育及地方教育附加${ed.toFixed(2)}；预填申报表演示已生成`;
 }
-//底部快速演示
 function quickCalc(){
   let s=Number(document.getElementById('saleQuick').value||0);
   let vat=s*0.01;
