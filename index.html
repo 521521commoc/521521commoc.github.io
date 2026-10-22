@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>智慧财税管理智能体｜课程作业原型</title>
+<title>智慧财税管理智能体</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:"Microsoft Yahei",sans-serif}
 header{background:#165DFF;color:white;padding:18px 24px}
@@ -54,17 +54,13 @@ textarea,input{width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border
 <body>
 <header>
 <h1>智慧财税管理智能体</h1>
-<p>面向企业财税｜课程作业交互原型 · <b>仅课程演示，不可用于真实纳税申报</b></p >
-</header>
+
 
 <div class="container">
 <div class="warn">📢重要提示：本网页为财务管理课程设计交互原型；全部计税、AI输出、申报均为模拟演示；真实涉税业务请以电子税务局、主管税务机关为准。</div>
 
-<div class="output-tip">
-📎对应作业5项核心能力：①多税种一键申报&自动生成申报表 ②AI涉税风险报告+整改建议 ③优惠自动识别&测算推送 ④企业画像‑政策适配分析 ⑤政策与合规站内提醒
-</div>
 
-<h2>🏠功能导航（点击按钮弹出弹窗）</h2>
+<h2>🏠功能导航</h2>
 <div class="grid">
 
 <div class="card">
@@ -81,13 +77,13 @@ textarea,input{width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border
 
 <div class="card">
 <h3>🧾计税&申报</h3>
-<p>✅作业1+2｜多税种一键申报、自动计税、生成申报表、支持人工复核调整</p >
+<p>多税种一键申报、自动计税、生成申报表、支持人工复核调整</p >
 <button class="btn" onclick="openModal('mod_taxdeclare')">打开计税申报</button>
 </div>
 
 <div class="card">
 <h3>📚政策中心</h3>
-<p>✅作业3+4｜优惠自动识别推送、企业画像政策适配分析，区分已享受/可享受/暂不满足</p >
+<p>优惠自动识别推送、企业画像政策适配分析，区分已享受/可享受/暂不满足</p >
 <button class="btn" onclick="openModal('mod_policy')">打开政策中心</button>
 </div>
 
@@ -106,7 +102,7 @@ textarea,input{width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border
 
 <div class="card">
 <h3>🔔消息提醒</h3>
-<p>✅作业5｜政策变动、申报期限、涉税风险网页端站内合规提醒中心</p >
+<p>政策变动、申报期限、涉税风险网页端站内合规提醒中心</p >
 <button class="btn" onclick="openModal('mod_notice')">查看消息提醒</button>
 </div>
 
@@ -123,7 +119,7 @@ textarea,input{width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border
 </div>
 
 <footer>
-智慧财税管理智能体｜课程作业原型｜免责声明：仅教学演示，不提供真实报税服务｜2026
+智慧财税管理智能体｜2026
 </footer>
 
 
@@ -131,7 +127,7 @@ textarea,input{width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border
 <div id="mod_qy" class="modal-overlay">
   <div class="modal-box">
     <span class="modal-close-x" onclick="closeAllModal()">×</span>
-    <h4>🏢企业中心｜构建企业画像（对应作业核心功能第4条）</h4>
+    <h4>🏢企业中心｜构建企业画像</h4>
     <p class="desc-text">维护企业特征标签：行业、增值税纳税人身份、经营规模、注册地区、开业时间，用来构建立体企业画像；画像将提供给政策适配、优惠测算、风险识别模块作为输入依据。</p >
     <div class="demo-block">
 📋演示企业画像：<br>
@@ -158,9 +154,9 @@ textarea,input{width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border
 <div id="mod_taxdeclare" class="modal-overlay">
   <div class="modal-box">
     <span class="modal-close-x" onclick="closeAllModal()">×</span>
-    <h4>🧾计税&申报｜对应作业核心功能第1、2条</h4>
-    <p class="desc-text"><b>①多税种一键申报：</b>支持增值税、企业所得税等主流税种，可批量勾选、模拟提交、查询申报状态、申报表预览下载归档；<br>
-    <b>②自动计税与申报表生成：</b>依据标准化财务数据、按照税法规则自动计算应纳税额，自动生成规范申报表，支持人工复核调整修改。</p >
+    <h4>🧾计税&申报</h4>
+    <p class="desc-text"><b>多税种一键申报：</b>支持增值税、企业所得税等主流税种，可批量提交、查询申报状态、申报表预览下载归档；<br>
+    <b>自动计税与申报表生成：</b>依据标准化财务数据、按照税法规则自动计算应纳税额，自动生成规范申报表，支持人工复核调整。</p >
     <div class="demo-block">
 🧪交互演示区：
 <input type="number" id="saleIn" placeholder="输入不含税销售额(演示)">
@@ -176,9 +172,9 @@ textarea,input{width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border
 <div id="mod_policy" class="modal-overlay">
   <div class="modal-box">
     <span class="modal-close-x" onclick="closeAllModal()">×</span>
-    <h4>📚政策中心｜对应作业核心功能第3、4条</h4>
-    <p class="desc-text"><b>③税收优惠自动识别与推送：</b>读取企业经营指标，自动识别可享受税费优惠、测算减免金额、提示留存备查资料；<br>
-    <b>④基于企业特征的政策适配分析：</b>调取企业画像做匹配，把政策分为：✅已享受、🟢可享受、⚠暂不满足条件三类。</p >
+    <h4>📚政策中心</h4>
+    <p class="desc-text"><b>税收优惠自动识别与推送：</b>读取企业经营指标，自动识别可享受税费优惠、测算减免金额、提示留存备查资料；<br>
+    <b>基于企业特征的政策适配分析：</b>构建企业画像，对政策做适配分析，区分✅已享受、🟢可享受、⚠暂不满足条件的政策。</p >
     <div class="demo-block">
 📑演示匹配结果（演示画像：批发零售‑小规模‑小微企业‑西安）：<br>
 ✅已享受：六税两费减半征收<br>
@@ -221,14 +217,14 @@ textarea,input{width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border
 <div id="mod_notice" class="modal-overlay">
   <div class="modal-box">
     <span class="modal-close-x" onclick="closeAllModal()">×</span>
-    <h4>🔔消息提醒｜对应作业核心功能第5条</h4>
-    <p class="desc-text">税收政策库动态更新；在网页端提供站内提醒：政策变更通知、申报期限倒计时、涉税风险事项预警；消息支持标记为已读。</p >
+    <h4>🔔消息提醒</h4>
+    <p class="desc-text">税收政策库动态更新；对政策变更通知、申报期限、涉税风险事项提供网页站内提醒。</p >
     <div class="demo-block">
 ⏰提醒列表演示：
 <br>•【倒计时】距离本季度纳税申报截止还有 6 天，请核对数据
 <br>•【政策更新】部分税费优惠延续政策已经更新入库
 <br>•【风险提示】来自风险看板：存在1条低风险事项待复核
-<br>「标记全部已读」
+
     </div>
     <p class="desc-text">消息推送规则参见《系统开发说明书》。</p >
     <button class="btn btn-close" onclick="closeAllModal()">关闭</button>
